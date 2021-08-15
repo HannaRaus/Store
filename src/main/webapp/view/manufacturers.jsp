@@ -5,7 +5,16 @@
 <head>
     <title>GOIT</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+    </script>
 </head>
 <body>
   <c:import url="/view/navibar.jsp"/>
@@ -32,6 +41,7 @@
                   </c:forEach>
                 </table>
               </td>
+            <!-- Access to update\delete operation -->
             <security:authorize access="hasRole('ROLE_ADMIN')">
               <td align="center">
                 <a href="/manufacturers/form/update?id=${entity.id}">
@@ -39,8 +49,7 @@
                 </a>
               </td>
               <td align="center">
-                <button type="button" class="btn btn-outline-danger my-2 my-sm-0" data-id="${entity.id}"
-                    data-toggle="modal" data-target="#myModal">Delete</button>
+                <a class="btn btn-outline-danger my-2 my-sm-0" href="#myModal" data-toggle="modal" data-id="${entity.id}">Delete</a>
               </td>
             </security:authorize>
           </tr>
@@ -48,7 +57,7 @@
       </tbody>
     </table>
 
-    <!-- Modal -->
+    <!-- Modal window with warning for delete operation -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -59,23 +68,23 @@
             </button>
           </div>
           <div class="modal-body">
-            If you want to delete manufacturer, all the nested products will be deleted as well.
-            Are you sure?
+            If you want to delete manufacturer all related products will be deleted as well.
+            Are you sure you want to continue?
           </div>
           <div class="modal-footer">
-           <a href="#">
-            <button type="button" class="btn btn-danger">Delete anyway</button>
-            </a>
+            <a class="btn btn-danger" href="#">Delete anyway</a>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- script for sending entity.id in modal "Delete anyway" button --!>
     <script>
-        $('#myModal').on('show.bs.modal', function (event) {
-          var id = $(event.relatedTarget).data('id');
-          $(this).find('.btn-danger').attr("href", "/manufacturers/delete?id=" + id);
-        )}
+        $('#myModal').on('show.bs.modal', function (e) {
+          var id = $(e.relatedTarget).data('id')
+          var href = '/manufacturers/delete?id=' + id
+          $('.btn-danger', this).attr('href', href)
+        })
     </script>
 </body>
 </html>
