@@ -30,14 +30,19 @@
 
                 <spring:bind path="name">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="name" class="form-control" placeholder="Name" autofocus="true"></form:input>
+                        <form:input type="text" path="name" class="form-control" placeholder="Name" autofocus="true"/>
                         <form:errors path="name"></form:errors>
                     </div>
                 </spring:bind>
 
                 <span>${message}</span>
                 <spring:bind path="products">
-                    <form:select class="form-control form-control-lg" path="products" name="products" items="${products}" itemLabel="name" itemValue="id" />
+                <div class="form-group">
+                    <span class="form-control form-control-lg">
+                        <form:checkboxes class="form-inline" path="products" name="products"
+                        items="${products}" itemLabel="name" itemValue="id" />
+                    </span>
+                    </div>
                 </spring:bind>
 
                 <button class="btn btn-outline-success btn-block" type="submit">Submit</button>
