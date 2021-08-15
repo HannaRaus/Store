@@ -27,7 +27,7 @@ public class Manufacturer {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy="manufacturers", fetch = FetchType.LAZY, cascade= CascadeType.PERSIST)
+    @OneToMany(mappedBy="manufacturers", fetch = FetchType.LAZY, cascade= CascadeType.PERSIST, orphanRemoval = true)
     private Set<Product> products;
 
     public Manufacturer() {
