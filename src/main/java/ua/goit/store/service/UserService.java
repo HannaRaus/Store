@@ -34,12 +34,12 @@ public class UserService extends GenericService<User> {
     }
 
     @Override
-    public User save(User entity) {
+    public void save(User entity) {
         if (repository.findByEmail(entity.getEmail()).isPresent()) {
             throw new UserAlreadyExistException(String.format("User with specified email [%s] already exists",
                     entity.getEmail()));
         }
         entity.setPassword(encoder.encode(entity.getPassword()));
-        return super.save(entity);
+        repository.save(entity);
     }
 }

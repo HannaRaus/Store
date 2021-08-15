@@ -4,7 +4,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="endpoint" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 <c:choose>
-    <c:when test="${endpoint == '/products/form/add'}">
+    <c:when test="${endpoint == '/manufacturers/form/add'}">
         <c:set var="action" value="Create"/>
     </c:when>
     <c:otherwise>
@@ -25,7 +25,7 @@
 
         <div class="container">
             <form:form method="POST" modelAttribute="entityForm" class="form-signin" action="/manufacturers">
-                <h2 class="form-signin-heading">Create manufacturer</h2>
+                <h2 class="form-signin-heading">${action} manufacturer</h2>
                 <form:input type="hidden" path="id" value="${entityForm.id}"/>
 
                 <spring:bind path="name">
@@ -35,6 +35,7 @@
                     </div>
                 </spring:bind>
 
+                <span>${message}</span>
                 <spring:bind path="products">
                     <form:select class="form-control form-control-lg" path="products" name="products" items="${products}" itemLabel="name" itemValue="id" />
                 </spring:bind>

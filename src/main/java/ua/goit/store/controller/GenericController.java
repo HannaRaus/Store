@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
+import ua.goit.store.exceptions.DAOException;
 import ua.goit.store.service.GenericService;
 
 import javax.validation.Valid;
@@ -41,11 +42,16 @@ public abstract class GenericController<T> {
     public String createOrUpdate(@Valid @ModelAttribute("entityForm") T entity, BindingResult result, Model model) {
         log.info("createOrUpdate().");
         if (result.hasErrors()) {
-            model.addAttribute("entityForm", entity);
-            setRelatedEntities(model);
+            setInfoInForm(entity, model);
             return formPage();
         }
-        getService().save(entity);
+        try {
+            getService().save(entity);
+        } catch (DAOException ex) {
+            model.addAttribute("message", ex.getMessage());
+            setInfoInForm(entity, model);
+            return formPage();
+        }
         return String.format("redirect:/%s", entitiesPage());
     }
 
@@ -62,8 +68,7 @@ public abstract class GenericController<T> {
     public <V> String showUpdateForm(@RequestParam(name = "id") UUID uuid, Model model) {
         log.info("showUpdateForm().");
         T entity = getService().read(uuid);
-        model.addAttribute("entityForm", entity);
-        setRelatedEntities(model);
+        setInfoInForm(entity, model);
         return formPage();
     }
 
@@ -73,6 +78,11 @@ public abstract class GenericController<T> {
         log.info("delete().");
         getService().delete(uuid);
         return new RedirectView(String.format("/%s", entitiesPage()));
+    }
+
+    private void setInfoInForm(T entity, Model model) {
+        model.addAttribute("entityForm", entity);
+        setRelatedEntities(model);
     }
 
 }

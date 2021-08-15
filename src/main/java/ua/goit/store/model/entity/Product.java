@@ -29,7 +29,7 @@ public class Product {
     private BigDecimal price;
 
     @NotNull(message = "Manufacturer can't be null")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturer_id", nullable = false)
     private Manufacturer manufacturers;
 
