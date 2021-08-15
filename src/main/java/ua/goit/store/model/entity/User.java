@@ -19,7 +19,7 @@ public class User {
     private UUID id;
 
     @Email(regexp = ".+@.+\\..+", message = "Email must have @ symbol")
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @ToString.Exclude

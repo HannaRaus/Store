@@ -3,7 +3,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="endpoint" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
-
+<c:choose>
+    <c:when test="${endpoint == '/users/registration'}">
+        <c:set var="actionUrl" value="/users/registration"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="actionUrl" value="/users"/>
+    </c:otherwise>
+</c:choose>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,8 +25,8 @@
 <body>
 
 <div class="container">
-    <form:form method="POST" modelAttribute="entity" class="form-signin" action="${actionUrl}">
-        <h2 class="form-signin-heading">Create your account</h2>
+    <form:form method="POST" modelAttribute="entityForm" class="form-signin" action="${actionUrl}">
+        <h2 class="form-signin-heading">Create account</h2>
         <form:input type="hidden" path="id" value="${entity.id}"/>
 
         <spring:bind path="firstName">
@@ -45,16 +52,14 @@
             </div>
         </spring:bind>
 
-         <c:if test="${endpoint == '/user/registration'}">
-            <spring:bind path="password">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="password" path="password" class="form-control" placeholder="Password"></form:input>
-                    <form:errors path="password"></form:errors>
-                </div>
-            </spring:bind>
-        </c:if>
+        <spring:bind path="password">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="password" path="password" class="form-control" placeholder="Password"></form:input>
+                <form:errors path="password"></form:errors>
+            </div>
+        </spring:bind>
 
-         <c:if test="${endpoint != '/user/registration'}">
+         <c:if test="${endpoint != '/users/registration'}">
             <form:select class="form-control form-control-lg" path="userRole" items="${roles}" itemLabel="role" itemValue="role" />
         </c:if>
 

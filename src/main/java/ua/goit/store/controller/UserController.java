@@ -16,7 +16,7 @@ import ua.goit.store.service.formatters.RoleEditor;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping(path = "/user")
+@RequestMapping(path = "/users")
 public class UserController extends GenericController<User> {
 
     @Autowired

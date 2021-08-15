@@ -23,7 +23,7 @@
             <span>${error}</span>
 
             <button class="btn btn-outline-primary btn-block" type="submit">Log In</button>
-            <h4 class="text-center"><a href="${contextPath}/user/registration">Create an account</a>
+            <h4 class="text-center"><a href="${contextPath}/users/registration">Create an account</a>
             </h4>
         </div>
     </form>

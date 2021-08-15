@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 import ua.goit.store.exceptions.DAOException;
+import ua.goit.store.exceptions.UserAlreadyExistException;
 import ua.goit.store.service.GenericService;
 
 import javax.validation.Valid;
@@ -47,7 +48,7 @@ public abstract class GenericController<T> {
         }
         try {
             getService().save(entity);
-        } catch (DAOException ex) {
+        } catch (DAOException |UserAlreadyExistException ex) {
             model.addAttribute("message", ex.getMessage());
             setInfoInForm(entity, model);
             return formPage();

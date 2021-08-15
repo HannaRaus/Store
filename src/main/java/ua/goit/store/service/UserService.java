@@ -9,6 +9,8 @@ import ua.goit.store.model.entity.User;
 import ua.goit.store.model.repository.GenericRepository;
 import ua.goit.store.model.repository.UserRepository;
 
+import java.util.Objects;
+
 
 @Service
 public class UserService extends GenericService<User> {
@@ -34,10 +36,9 @@ public class UserService extends GenericService<User> {
     }
 
     @Override
-    public void save(User entity) {
-        if (repository.findByEmail(entity.getEmail()).isPresent()) {
-            throw new UserAlreadyExistException(String.format("User with specified email [%s] already exists",
-                    entity.getEmail()));
+    public void save(User entity) throws UserAlreadyExistException {
+        if (Objects.isNull(entity.getId()) && repository.findByEmail(entity.getEmail()).isPresent()) {
+            throw new UserAlreadyExistException("Account with provided email already exists");
         }
         entity.setPassword(encoder.encode(entity.getPassword()));
         repository.save(entity);
