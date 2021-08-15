@@ -14,14 +14,13 @@
       </li>
       <security:authorize access="hasRole('ROLE_ADMIN')">
         <li class="nav-item">
-          <a class="nav-link disabled" href="${pageContext.request.contextPath}/user">Users</a>
+          <a class="nav-link disabled" href="${pageContext.request.contextPath}/users">Users</a>
       </security:authorize>
     </ul>
     <security:authorize access="hasRole('ROLE_ADMIN')">
       <c:if test="${endpoint != '/'}">
          <form class="form-inline my-2 my-lg-0" action="${endpoint}/form/add">
            <button class="btn btn-warning my-2 my-sm-0" type="submit">New</button>
-           <h2>${endpoint}</h2>
          </form>
       </c:if>
     </security:authorize>

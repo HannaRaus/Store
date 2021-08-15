@@ -21,8 +21,6 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-  <c:import url="/view/navibar.jsp"/>
-
     <div class="container">
         <form:form method="POST" modelAttribute="entityForm" class="form-signin" action="/products">
             <h2 class="form-signin-heading">${action} product</h2>
