@@ -1,6 +1,5 @@
 INSERT INTO users(email, password, first_name, last_name, user_role)
-    VALUES  ('admin@gmail.com', 'admin', 'Taras', 'Shevchenko', 'ROLE_ADMIN'),
-            ('user@gmail.com', 'user', 'Lesya', 'Ukrainka', 'ROLE_USER');
+    VALUES  ('admin@gmail.com', 'admin', 'Taras', 'Shevchenko', 'ROLE_ADMIN');
 
 INSERT INTO manufacturers(name)
     VALUES  ('Vichy'),

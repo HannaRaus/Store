@@ -2,7 +2,7 @@ package ua.goit.store.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.goit.store.exceptions.DAOException;
+import ua.goit.store.exceptions.NestedEntityException;
 import ua.goit.store.model.entity.Manufacturer;
 import ua.goit.store.model.entity.Product;
 import ua.goit.store.model.repository.GenericRepository;
@@ -28,7 +28,7 @@ public class ManufacturerService extends GenericService<Manufacturer> {
     }
 
     @Override
-    public void save(Manufacturer manufacturer) throws DAOException {
+    public void save(Manufacturer manufacturer) throws NestedEntityException {
         if (Objects.nonNull(manufacturer.getId())) {
             update(manufacturer);
         } else {
@@ -37,7 +37,7 @@ public class ManufacturerService extends GenericService<Manufacturer> {
 
     }
 
-    private void update(Manufacturer manufacturer) throws DAOException {
+    private void update(Manufacturer manufacturer) throws NestedEntityException {
         Set<Product> productsInDB = repository.getById(manufacturer.getId()).getProducts();
         Set<Product> products = manufacturer.getProducts();
 
@@ -46,7 +46,7 @@ public class ManufacturerService extends GenericService<Manufacturer> {
                 .collect(Collectors.toList());
 
         if (productsToDelete.size() > 0) {
-            throw new DAOException("All products without manufacturer must be deleted before updating manufacturer");
+            throw new NestedEntityException("All products without manufacturer must be deleted before updating manufacturer");
         }
 
         products.forEach((p -> {

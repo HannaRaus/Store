@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ua.goit.store.authorization.LibraryUserDetailsService;
+import ua.goit.store.authorization.StoreUserDetailsService;
 import ua.goit.store.model.entity.User;
 
 @Configuration
@@ -18,10 +18,10 @@ import ua.goit.store.model.entity.User;
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final LibraryUserDetailsService userDetailsService;
+    private final StoreUserDetailsService userDetailsService;
 
     @Autowired
-    public SpringSecurityConfiguration(LibraryUserDetailsService userDetailsService) {
+    public SpringSecurityConfiguration(StoreUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

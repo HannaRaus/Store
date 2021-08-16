@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.view.RedirectView;
-import ua.goit.store.exceptions.DAOException;
+import ua.goit.store.exceptions.NestedEntityException;
 import ua.goit.store.exceptions.UserAlreadyExistException;
 import ua.goit.store.service.GenericService;
 
@@ -32,7 +31,7 @@ public abstract class GenericController<T> {
 
     @GetMapping()
     public String showEntities(Model model) {
-        log.info("showEntities().");
+        log.info("GenericController.showEntities().");
         List<T> entities = getService().readAll();
         model.addAttribute("entities", entities);
         return entitiesPage();
@@ -41,14 +40,14 @@ public abstract class GenericController<T> {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public String createOrUpdate(@Valid @ModelAttribute("entityForm") T entity, BindingResult result, Model model) {
-        log.info("createOrUpdate().");
+        log.info("GenericController.createOrUpdate().");
         if (result.hasErrors()) {
             setInfoInForm(entity, model);
             return formPage();
         }
         try {
             getService().save(entity);
-        } catch (DAOException |UserAlreadyExistException ex) {
+        } catch (NestedEntityException | UserAlreadyExistException ex) {
             model.addAttribute("message", ex.getMessage());
             setInfoInForm(entity, model);
             return formPage();
@@ -59,7 +58,7 @@ public abstract class GenericController<T> {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "form/add")
     public <V> String showAddForm(Model model) {
-        log.info("showAddForm().");
+        log.info("GenericController.showAddForm().");
         setRelatedEntities(model);
         return formPage();
     }
@@ -67,7 +66,7 @@ public abstract class GenericController<T> {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "form/update")
     public <V> String showUpdateForm(@RequestParam(name = "id") UUID uuid, Model model) {
-        log.info("showUpdateForm().");
+        log.info("GenericController.showUpdateForm().");
         T entity = getService().read(uuid);
         setInfoInForm(entity, model);
         return formPage();
@@ -75,10 +74,10 @@ public abstract class GenericController<T> {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "/delete")
-    public RedirectView delete(@RequestParam(name = "id") UUID uuid) {
+    public String delete(@RequestParam(name = "id") UUID uuid) {
         log.info("delete().");
         getService().delete(uuid);
-        return new RedirectView(String.format("/%s", entitiesPage()));
+        return String.format("redirect:/%s", entitiesPage());
     }
 
     private void setInfoInForm(T entity, Model model) {

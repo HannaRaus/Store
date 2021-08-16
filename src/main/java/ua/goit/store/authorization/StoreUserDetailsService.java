@@ -9,12 +9,12 @@ import ua.goit.store.model.entity.User;
 import ua.goit.store.model.repository.UserRepository;
 
 @Service(value = "userServiceDetails")
-public class LibraryUserDetailsService implements UserDetailsService {
+public class StoreUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public LibraryUserDetailsService(UserRepository userRepository) {
+    public StoreUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

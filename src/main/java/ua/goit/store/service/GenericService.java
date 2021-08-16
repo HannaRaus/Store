@@ -2,7 +2,8 @@ package ua.goit.store.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ua.goit.store.exceptions.DAOException;
+import ua.goit.store.exceptions.NestedEntityException;
+import ua.goit.store.exceptions.UserAlreadyExistException;
 import ua.goit.store.model.repository.GenericRepository;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public abstract class GenericService<T> {
 
     protected abstract GenericRepository<T> getRepository();
 
-    public void save(T entity) throws DAOException {
+    public void save(T entity) throws NestedEntityException, UserAlreadyExistException {
         log.info("GenericService.save().");
         getRepository().save(entity);
     }
