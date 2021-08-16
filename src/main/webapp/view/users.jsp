@@ -34,11 +34,13 @@
               <button class="btn btn-outline-info my-2 my-sm-0">Update</button>
             </a>
           </td>
+          <c:if test="${entity.email != 'admin@gmail.com'}">
           <td align="center">
             <a href="/users/delete?id=${entity.id}">
               <button class="btn btn-outline-danger my-2 my-sm-0">Delete</button>
             </a>
           </td>
+          </c:if>
           </security:authorize>
         </tr>
       </c:forEach>
